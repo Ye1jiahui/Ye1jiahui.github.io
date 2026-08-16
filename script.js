@@ -3,6 +3,7 @@ const navLinks = document.querySelectorAll(".site-nav a");
 const lightbox = document.querySelector(".lightbox");
 const lightboxImage = lightbox?.querySelector("img");
 const lightboxClose = document.querySelector(".lightbox-close");
+const lightboxPlaceholder = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 const previewButtons = document.querySelectorAll("[data-full]");
 
 // 让项目和思考的视觉顺序同时成为文档阅读顺序。
@@ -36,7 +37,7 @@ function openLightbox(source, alt) {
 function closeLightbox() {
   if (!lightbox || !lightboxImage) return;
   lightbox.hidden = true;
-  lightboxImage.removeAttribute("src");
+  lightboxImage.src = lightboxPlaceholder;
   lightboxImage.alt = "";
   document.body.classList.remove("lightbox-open");
 }
