@@ -6,6 +6,15 @@ const lightboxClose = document.querySelector(".lightbox-close");
 const lightboxPlaceholder = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 const previewButtons = document.querySelectorAll("[data-full]");
 
+// 轮播图只预加载当前页和相邻页，避免进入区块时一次请求整组大图。
+function loadCarouselImages(images, activeIndex) {
+  [activeIndex - 1, activeIndex, activeIndex + 1].forEach((index) => {
+    const image = images[index];
+    const source = image?.dataset.carouselSrc;
+    if (image && source && image.getAttribute("src") !== source) image.src = source;
+  });
+}
+
 // 让项目和思考的视觉顺序同时成为文档阅读顺序。
 const notesSection = document.querySelector("#notes");
 const projectsSection = document.querySelector("#projects");
@@ -51,12 +60,14 @@ previewButtons.forEach((button) => {
 // 金融图集滑动时，同步右侧的交易说明。
 const tradeCarousel = document.querySelector(".trade-carousel");
 const tradeNotes = [...document.querySelectorAll(".trade-note")];
+const tradeImages = tradeCarousel ? [...tradeCarousel.querySelectorAll("img[data-carousel-src]")] : [];
 let tradeScrollTimer;
 
 function syncTradeNote() {
   if (!tradeCarousel || tradeNotes.length === 0) return;
   const gap = Number.parseFloat(getComputedStyle(tradeCarousel).columnGap) || 0;
   const index = Math.max(0, Math.min(tradeNotes.length - 1, Math.round(tradeCarousel.scrollLeft / (tradeCarousel.clientWidth + gap))));
+  loadCarouselImages(tradeImages, index);
   tradeNotes.forEach((note, noteIndex) => note.classList.toggle("is-active", noteIndex === index));
 }
 
@@ -69,12 +80,14 @@ syncTradeNote();
 // 游戏图集滑动时，突出当前图片对应的文字介绍。
 const gameGallery = document.querySelector(".game-gallery");
 const gameNotes = [...document.querySelectorAll("[data-game-note]")];
+const gameImages = gameGallery ? [...gameGallery.querySelectorAll("img[data-carousel-src]")] : [];
 let gameScrollTimer;
 
 function syncGameNote() {
   if (!gameGallery || gameNotes.length === 0) return;
   const gap = Number.parseFloat(getComputedStyle(gameGallery).columnGap) || 0;
   const index = Math.max(0, Math.min(gameNotes.length - 1, Math.round(gameGallery.scrollLeft / (gameGallery.clientWidth + gap))));
+  loadCarouselImages(gameImages, index);
   gameNotes.forEach((note, noteIndex) => note.classList.toggle("is-active", noteIndex === index));
 }
 
