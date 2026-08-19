@@ -63,3 +63,10 @@
   .memory-photo button{height:auto;aspect-ratio:1.55}
   .memory-photo-portrait button{aspect-ratio:4/5}
 }
+
+/* 图片加载失败时保留浅色容器，避免页面出现突兀的空白。 */
+.memory-photo picture{display:block;width:100%;height:100%}
+.image-failed{position:relative;background:#eef2ee!important;color:var(--muted)}
+.image-failed::after{content:"图片暂时无法加载";position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);font-size:12px;white-space:nowrap;letter-spacing:.04em}
+.image-failed img{opacity:0}
+.portrait-frame picture{display:block;width:100%;height:100%}

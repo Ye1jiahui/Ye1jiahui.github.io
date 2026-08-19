@@ -6,11 +6,20 @@ const lightboxClose = document.querySelector(".lightbox-close");
 const lightboxPlaceholder = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 const previewButtons = document.querySelectorAll("[data-full]");
 
+const mobileMediaQuery = window.matchMedia("(max-width: 700px)");
+
+function getCarouselSource(image) {
+  if (!image) return "";
+  return mobileMediaQuery.matches
+    ? image.dataset.carouselMobileSrc || image.dataset.carouselSrc
+    : image.dataset.carouselDesktopSrc || image.dataset.carouselSrc;
+}
+
 // 轮播图只预加载当前页和相邻页，避免进入区块时一次请求整组大图。
 function loadCarouselImages(images, activeIndex) {
   [activeIndex - 1, activeIndex, activeIndex + 1].forEach((index) => {
     const image = images[index];
-    const source = image?.dataset.carouselSrc;
+    const source = getCarouselSource(image);
     if (image && source && image.getAttribute("src") !== source) image.src = source;
   });
 }
@@ -96,6 +105,18 @@ gameGallery?.addEventListener("scroll", () => {
   gameScrollTimer = window.setTimeout(syncGameNote, 60);
 });
 syncGameNote();
+
+// 视口变化时切换到对应尺寸资源，旋转手机后不继续使用桌面大图。
+mobileMediaQuery.addEventListener?.("change", () => {
+  loadCarouselImages(tradeImages, 0);
+  loadCarouselImages(gameImages, 0);
+});
+
+// 统一处理失败状态，保证加载失败时仍保留可操作的版式。
+document.querySelectorAll("img").forEach((image) => {
+  image.addEventListener("error", () => image.closest("button, figure")?.classList.add("image-failed"));
+  image.addEventListener("load", () => image.closest("button, figure")?.classList.remove("image-failed"));
+});
 
 lightboxClose?.addEventListener("click", closeLightbox);
 lightbox?.addEventListener("click", (event) => {
