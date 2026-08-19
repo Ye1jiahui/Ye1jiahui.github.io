@@ -15,6 +15,17 @@ function getCarouselSource(image) {
     : image.dataset.carouselDesktopSrc || image.dataset.carouselSrc;
 }
 
+// 移动端先把照片的普通地址切到轻量图，避免懒加载策略误选桌面兜底图。
+function applyMobilePhotoFallback() {
+  if (!mobileMediaQuery.matches) return;
+  document.querySelectorAll(".memory-photo img").forEach((image) => {
+    const mobileSource = image.closest("picture")?.querySelector("source")?.srcset;
+    if (mobileSource && image.src !== new URL(mobileSource, document.baseURI).href) image.src = mobileSource;
+  });
+}
+
+applyMobilePhotoFallback();
+
 // 轮播图只预加载当前页和相邻页，避免进入区块时一次请求整组大图。
 function loadCarouselImages(images, activeIndex) {
   [activeIndex - 1, activeIndex, activeIndex + 1].forEach((index) => {
@@ -110,6 +121,7 @@ syncGameNote();
 mobileMediaQuery.addEventListener?.("change", () => {
   loadCarouselImages(tradeImages, 0);
   loadCarouselImages(gameImages, 0);
+  applyMobilePhotoFallback();
 });
 
 // 统一处理失败状态，保证加载失败时仍保留可操作的版式。
