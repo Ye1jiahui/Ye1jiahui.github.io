@@ -70,3 +70,22 @@
 .image-failed::after{content:"图片暂时无法加载";position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);font-size:12px;white-space:nowrap;letter-spacing:.04em}
 .image-failed img{opacity:0}
 .portrait-frame picture{display:block;width:100%;height:100%}
+
+/* 项目入口采用明确的主次层级，让“立即体验”成为每张卡片的第一动作。 */
+.project-action-group{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.project-link.project-link-primary{min-height:44px;padding:0 16px 0 18px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;box-shadow:0 8px 16px rgba(16,35,45,.12);font-size:13px;letter-spacing:.01em;transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease}
+.project-link.project-link-primary:hover{transform:translateY(-2px);border-color:var(--accent-dark);background:var(--accent-dark);box-shadow:0 11px 22px rgba(16,35,45,.18)}
+.project-link.project-link-primary:active{transform:translateY(0);box-shadow:0 4px 10px rgba(16,35,45,.12)}
+.project-link.project-link-primary span{display:grid;width:23px;height:23px;place-items:center;border-radius:50%;background:rgba(255,255,255,.14);font-size:15px;line-height:1}
+.project-link-hint{color:var(--muted);font-size:10px;letter-spacing:.03em;white-space:nowrap}
+.project-visual-wheel{aspect-ratio:2.08;background:#0c2721}
+.project-visual-wheel picture{display:block;width:100%;height:100%}
+.project-visual-wheel img{width:100%;height:100%;object-fit:contain;background:#0c2721}
+
+@media(max-width:620px){
+  .project-links{align-items:flex-start;gap:18px}
+  .project-action-group{width:100%}
+  .project-link.project-link-primary{min-height:46px;padding-right:18px;padding-left:20px}
+  .project-link-hint{padding-left:4px}
+  .project-visual-wheel{aspect-ratio:2.08}
+}
