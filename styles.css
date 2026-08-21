@@ -92,20 +92,7 @@
 .project-visual-step-label b{color:var(--lime);font-size:10px;letter-spacing:.08em}
 .project-visual-step-label i{margin-left:auto;color:var(--lime);font-size:16px;font-style:normal}
 .project-visual-step-flow{font:inherit;color:inherit}
-/* 桌面端让右侧预览跟随项目行高度，避免宽屏截图下方留下大片空白。 */
-@media(min-width:901px){
-  .project-row{align-items:stretch}
-  .project-row>.project-visual,
-  .project-row>.project-visual-carousel{align-self:stretch;min-height:clamp(560px,42vw,640px);height:100%;aspect-ratio:auto}
-  .project-visual-carousel{grid-auto-rows:1fr}
-  .project-visual-step{height:100%;min-height:0;aspect-ratio:auto}
-}
 @media(max-width:620px){.project-visual-carousel{gap:10px}.project-visual-step{aspect-ratio:1.72}.project-visual-step-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:10px}}
-
-/* 桌面端普通项目预览填满项目行，并完整保留流程图画面。 */
-@media(min-width:901px){
-  .project-row>.project-visual img{object-fit:contain;background:#eef2ee}
-}
 
 @media(max-width:620px){
   .project-links{align-items:flex-start;gap:18px}
@@ -114,3 +101,27 @@
   .project-link-hint{padding-left:4px}
   .project-visual-wheel{aspect-ratio:2.08}
 }
+
+/* 桌面端按展示图真实比例排布，避免容器拉高后产生大面积空白。 */
+@media(min-width:901px){
+  .project-row{
+    grid-template-columns:58px minmax(0,1fr) minmax(300px,36%);
+    gap:28px;
+    padding:26px 0;
+  }
+  .project-row>.project-visual,
+  .project-row>.project-visual-carousel{
+    align-self:start;
+    height:auto;
+    min-height:0;
+  }
+  .project-row>.project-visual:not(.project-visual-wheel){aspect-ratio:16 / 9}
+  .project-row>.project-visual-wheel{aspect-ratio:2.08 / 1}
+  .project-row>.project-visual-carousel{aspect-ratio:2.04 / 1}
+  .project-visual-carousel{grid-auto-rows:auto}
+  .project-visual-step{height:auto;min-height:0;aspect-ratio:2.04 / 1}
+  .project-visual:hover img{transform:scale(1.015)}
+}
+
+/* 普通项目图始终完整显示，大转盘保留自己的深色画布。 */
+.project-visual:not(.project-visual-wheel) img{object-fit:contain;background:#eef2ee}
