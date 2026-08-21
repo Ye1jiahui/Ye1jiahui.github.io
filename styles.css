@@ -92,6 +92,14 @@
 .project-visual-step-label b{color:var(--lime);font-size:10px;letter-spacing:.08em}
 .project-visual-step-label i{margin-left:auto;color:var(--lime);font-size:16px;font-style:normal}
 .project-visual-step-flow{font:inherit;color:inherit}
+/* 桌面端让右侧预览跟随项目行高度，避免宽屏截图下方留下大片空白。 */
+@media(min-width:901px){
+  .project-row{align-items:stretch}
+  .project-row>.project-visual,
+  .project-row>.project-visual-carousel{align-self:stretch;min-height:520px;height:auto;aspect-ratio:auto}
+  .project-visual-carousel{grid-auto-rows:1fr}
+  .project-visual-step{height:100%;min-height:520px;aspect-ratio:auto}
+}
 @media(max-width:620px){.project-visual-carousel{gap:10px}.project-visual-step{aspect-ratio:1.72}.project-visual-step-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:10px}}
 
 @media(max-width:620px){
