@@ -105,13 +105,13 @@
 /* 桌面端按展示图真实比例排布，避免容器拉高后产生大面积空白。 */
 @media(min-width:901px){
   .project-row{
-    grid-template-columns:58px minmax(0,1fr) minmax(300px,36%);
+    grid-template-columns:58px minmax(0,1fr) minmax(320px,38%);
     gap:28px;
     padding:26px 0;
   }
   .project-row>.project-visual,
   .project-row>.project-visual-carousel{
-    align-self:start;
+    align-self:center;
     height:auto;
     min-height:0;
   }
