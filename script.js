@@ -15,24 +15,24 @@ function getCarouselSource(image) {
     : image.dataset.carouselDesktopSrc || image.dataset.carouselSrc;
 }
 
-// 移动端先把照片的普通地址切到轻量图，避免懒加载策略误选桌面兜底图。
-function applyMobilePhotoFallback() {
-  if (!mobileMediaQuery.matches) return;
-  document.querySelectorAll(".memory-photo img").forEach((image) => {
-    const mobileSource = image.closest("picture")?.querySelector("source")?.srcset;
-    if (mobileSource && image.src !== new URL(mobileSource, document.baseURI).href) image.src = mobileSource;
-  });
+// 轮播初始化只请求当前页，用户滑动后再请求新的当前页，避免首屏并发下载整组图片。
+function loadCarouselImages(images, activeIndex) {
+  const image = images[activeIndex];
+  const source = getCarouselSource(image);
+  if (image && source && image.getAttribute("src") !== source) image.src = source;
 }
 
-applyMobilePhotoFallback();
-
-// 轮播图只预加载当前页和相邻页，避免进入区块时一次请求整组大图。
-function loadCarouselImages(images, activeIndex) {
-  [activeIndex - 1, activeIndex, activeIndex + 1].forEach((index) => {
-    const image = images[index];
-    const source = getCarouselSource(image);
-    if (image && source && image.getAttribute("src") !== source) image.src = source;
-  });
+function loadDeferredImage(image) {
+  if (!image) return;
+  const mobile = mobileMediaQuery.matches;
+  const source = image.closest("picture")?.querySelector("source[data-mobile-srcset]");
+  const sourceSet = mobile ? source?.dataset.mobileSrcset : source?.dataset.desktopSrcset;
+  if (source && sourceSet) source.srcset = sourceSet;
+  const deferredSource = mobile ? image.dataset.mobileSrc || image.dataset.deferredSrc : image.dataset.desktopSrc || image.dataset.deferredSrc;
+  if (deferredSource && image.getAttribute("src") !== deferredSource) image.src = deferredSource;
+  image.removeAttribute("data-mobile-src");
+  image.removeAttribute("data-desktop-src");
+  image.removeAttribute("data-deferred-src");
 }
 
 // 让项目和思考的视觉顺序同时成为文档阅读顺序。
@@ -121,8 +121,23 @@ syncGameNote();
 mobileMediaQuery.addEventListener?.("change", () => {
   loadCarouselImages(tradeImages, 0);
   loadCarouselImages(gameImages, 0);
-  applyMobilePhotoFallback();
 });
+
+// 只提前约 280px 准备图片，避免浏览器默认懒加载阈值在首屏外下载过多资源。
+const deferredImages = document.querySelectorAll("img[data-mobile-src], img[data-deferred-src]");
+if ("IntersectionObserver" in window) {
+  const imageObserver = new IntersectionObserver((entries, instance) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadDeferredImage(entry.target);
+        instance.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: "280px 0px" });
+  deferredImages.forEach((image) => imageObserver.observe(image));
+} else {
+  deferredImages.forEach(loadDeferredImage);
+}
 
 // 统一处理失败状态，保证加载失败时仍保留可操作的版式。
 document.querySelectorAll("img").forEach((image) => {
