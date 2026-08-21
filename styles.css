@@ -96,11 +96,16 @@
 @media(min-width:901px){
   .project-row{align-items:stretch}
   .project-row>.project-visual,
-  .project-row>.project-visual-carousel{align-self:stretch;min-height:520px;height:auto;aspect-ratio:auto}
+  .project-row>.project-visual-carousel{align-self:stretch;min-height:clamp(560px,42vw,640px);height:100%;aspect-ratio:auto}
   .project-visual-carousel{grid-auto-rows:1fr}
-  .project-visual-step{height:100%;min-height:520px;aspect-ratio:auto}
+  .project-visual-step{height:100%;min-height:0;aspect-ratio:auto}
 }
 @media(max-width:620px){.project-visual-carousel{gap:10px}.project-visual-step{aspect-ratio:1.72}.project-visual-step-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:10px}}
+
+/* 桌面端普通项目预览填满项目行，并完整保留流程图画面。 */
+@media(min-width:901px){
+  .project-row>.project-visual img{object-fit:contain;background:#eef2ee}
+}
 
 @media(max-width:620px){
   .project-links{align-items:flex-start;gap:18px}
