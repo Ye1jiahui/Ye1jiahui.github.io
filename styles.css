@@ -105,7 +105,7 @@
 /* 桌面端按展示图真实比例排布，避免容器拉高后产生大面积空白。 */
 @media(min-width:901px){
   .project-row{
-    grid-template-columns:58px minmax(0,1fr) minmax(320px,38%);
+    grid-template-columns:58px minmax(0,1fr) minmax(360px,42%);
     gap:28px;
     padding:26px 0;
   }
