@@ -24,7 +24,7 @@
 @media(max-width:900px){.game-layout{grid-template-columns:1fr}.game-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.game-slide{aspect-ratio:1.2}.game-list{grid-template-columns:1fr}}
 .section{padding-top:clamp(68px,8vw,112px);padding-bottom:clamp(68px,8vw,112px)}.section-kicker{margin-bottom:34px}.about-layout{gap:clamp(36px,7vw,100px)}.about-topics{margin-top:clamp(54px,7vw,88px)}.about-topic{padding:32px 0}.projects-heading{margin-bottom:48px}.project-row{gap:24px;padding:30px 0}.project-links{margin-top:22px}.notes-heading{margin-bottom:30px}.note-card{min-height:240px;padding:24px}.note-card h3{margin-top:38px}.contact-copy>p{margin-top:22px}.trade-showcase{gap:16px}.trade-showcase .trade-slide{aspect-ratio:2.17;background:#eef2ee}.trade-showcase .trade-slide img{object-fit:contain;background:#eef2ee}.trade-notes{padding:22px 20px}.trade-note h4{margin-top:18px}.trade-note p{margin-top:14px}.trade-note>strong{margin-top:20px}.trade-note::after{margin-top:22px}.about-topic-main,.project-content{transition:transform .25s ease}.about-topic:hover .about-topic-main,.project-row:hover .project-content{transform:translateX(3px)}
-@media(max-width:900px){.section{padding-top:62px;padding-bottom:62px}.section-kicker{margin-bottom:28px}.projects-heading{margin-bottom:36px}.project-row{gap:18px;padding:26px 0}.trade-showcase .trade-slide{aspect-ratio:2.17}}
+@media(max-width:900px){.section{padding-top:62px;padding-bottom:62px}.section-kicker{margin-bottom:28px}.projects-heading{margin-bottom:36px}.project-row{gap:18px;padding:26px 0}.trade-showcase .trade-slide{aspect-ratio:2.17}.project-visual-carousel{grid-column:2;max-width:560px}}
 @media(max-width:620px){.section{padding-top:54px;padding-bottom:54px}.about-topics{margin-top:48px}.about-topic{padding:26px 0}.project-row{padding:24px 0}.projects-heading{margin-bottom:30px}}
 .game-slide{background:var(--soft);border-color:var(--line)}.game-slide img{background:var(--soft)}
 
@@ -81,6 +81,18 @@
 .project-visual-wheel{aspect-ratio:2.08;background:#0c2721}
 .project-visual-wheel picture{display:block;width:100%;height:100%}
 .project-visual-wheel img{width:100%;height:100%;object-fit:contain;background:#0c2721}
+
+/* 铜钱占卜步骤图：横向滑动查看，前四步点击进入线上体验。 */
+.project-visual-carousel{display:grid;grid-auto-flow:column;grid-auto-columns:100%;gap:14px;align-self:start;min-width:0;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;scrollbar-color:var(--accent) var(--soft);scrollbar-width:thin}
+.project-visual-step{position:relative;display:block;width:100%;aspect-ratio:2.06;overflow:hidden;padding:0;border:1px solid var(--line);border-radius:var(--radius);background:#0b1714;cursor:pointer;scroll-snap-align:start}
+.project-visual-step picture{display:block;width:100%;height:100%}
+.project-visual-step img{width:100%;height:100%;object-fit:contain;background:#0b1714;transition:transform .35s ease}
+.project-visual-step:hover img{transform:scale(1.02)}
+.project-visual-step-label{position:absolute;right:10px;bottom:10px;left:10px;display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(8,22,18,.88);color:#fff;font-size:11px;line-height:1.3}
+.project-visual-step-label b{color:var(--lime);font-size:10px;letter-spacing:.08em}
+.project-visual-step-label i{margin-left:auto;color:var(--lime);font-size:16px;font-style:normal}
+.project-visual-step-flow{font:inherit;color:inherit}
+@media(max-width:620px){.project-visual-carousel{gap:10px}.project-visual-step{aspect-ratio:1.72}.project-visual-step-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:10px}}
 
 @media(max-width:620px){
   .project-links{align-items:flex-start;gap:18px}
